@@ -1,0 +1,24 @@
+flowchart TD
+    A[Load Dataset] -->|pandas| B[Data Preprocessing]
+    B --> C[Scale Features]
+    B --> D[Handle Class Imbalance]
+    
+    C -->|StandardScaler| E[Scaled Features]
+    D -->|SMOTE| F[Balanced Dataset]
+    
+    E --> G[Split Data]
+    F --> G
+    
+    G -->|train_test_split| H[Training Data]
+    G -->|train_test_split| I[Testing Data]
+    
+    H --> J[Train Random Forest]
+    J --> K[Evaluate Model]
+    I --> K
+    
+    K -->|classification_report| L[Print Performance Metrics]
+    K --> M[Save Model]
+    K --> N[Save Scaler]
+    
+    M -->|joblib.dump| O[saved_model.pkl]
+    N -->|joblib.dump| P[scaler.pkl]
