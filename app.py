@@ -4,8 +4,7 @@ from models import predict_fraud
 
 def main():
     st.title("Credit Card Fraud Detection")
-    
-    # Create input form using Streamlit widgets
+
     st.subheader("Enter Transaction Details")
     
     col1, col2 = st.columns(2)
@@ -26,7 +25,6 @@ def main():
             st.warning("Please fill in all fields")
         else:
             try:
-                # Create input DataFrame
                 input_data = pd.DataFrame({
                     'amt': [float(amount)],
                     'lat': [float(latitude)],
@@ -36,17 +34,13 @@ def main():
                     'merch_long': [float(merchant_longitude)],
                     'category': [str(category)]
                 })
-                
-                # Make prediction
                 prediction = predict_fraud(input_data)
                 
-                # Display result with styling
                 if prediction:
                     st.error("⚠️ Fraud Detected! This transaction appears to be fraudulent.")
                 else:
                     st.success("✅ Transaction appears to be legitimate.")
                 
-                # Display transaction details
                 st.subheader("Transaction Details")
                 details = pd.DataFrame({
                     'Feature': ['Amount', 'Location', 'City Population', 'Merchant Location', 'Category'],
@@ -63,33 +57,25 @@ def main():
             except Exception as e:
                 st.error(f"Error making prediction: {str(e)}")
     
-    # Add file uploader for batch processing
     st.subheader("Batch Processing")
     uploaded_file = st.file_uploader("Upload CSV file for batch processing", type=['csv'])
     
     if uploaded_file is not None:
         try:
-            # Read the CSV file
             df = pd.read_csv(uploaded_file)
-            
-            # Check if required columns exist
             required_columns = ['amt', 'lat', 'long', 'city_pop', 'merch_lat', 'merch_long', 'category']
             missing_columns = [col for col in required_columns if col not in df.columns]
             
             if missing_columns:
                 st.error(f"Missing required columns: {', '.join(missing_columns)}")
             else:
-                # Make predictions for each row
                 predictions = []
                 for _, row in df.iterrows():
                     input_data = pd.DataFrame([row])
                     pred = predict_fraud(input_data)
                     predictions.append(pred)
                 
-                # Add predictions to dataframe
                 df['prediction'] = predictions
-                
-                # Display summary
                 fraud_count = sum(predictions)
                 total_count = len(predictions)
                 
@@ -100,12 +86,10 @@ def main():
                     st.metric("Fraudulent Transactions", fraud_count)
                 with col3:
                     st.metric("Fraud Percentage", f"{(fraud_count/total_count)*100:.2f}%")
-                
-                # Display results table
+    
                 st.subheader("Detailed Results")
                 st.dataframe(df)
                 
-                # Add download button for results
                 csv = df.to_csv(index=False)
                 st.download_button(
                     label="Download Results",
