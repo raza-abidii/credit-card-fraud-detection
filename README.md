@@ -1,5 +1,5 @@
 ## 1. Clone the Repository
-git clone https://github.com/Raza-husain/credit-card-fraud-detection
+``` git clone https://github.com/Raza-husain/credit-card-fraud-detection ```
 
 ## 2. Dataset Integration
 This project uses data from Kaggle. Follow these steps to add the dataset:
