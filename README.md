@@ -21,19 +21,13 @@ print("Path to dataset files:", path)
 ```
 
 ## 3. Environment Setup
-### Create a virtual environment
-    python -m venv venv
-
-### Virtual environment 
-For Windows
-``` venv\Scripts\activate ```
-
-For Unix or MacOS
-``` source venv/bin/activate ```
-
-Install required packages
-``` pip install -r requirements.txt ```
-
+### a. Install Conda if you don't already have it installed.
+### b. Create a new environment with Python:
+    ``` conda create --name fraud-detection python=3.8 ```
+### c. Activate the environment:
+    ``` conda activate fraud-detection ```
+### d. Install required packages:
+    ``` pip install -r requirements.txt ```
 
 ## 4. Flowchart for the project
 ```mermaid
