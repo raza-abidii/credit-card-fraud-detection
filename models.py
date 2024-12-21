@@ -81,31 +81,6 @@ def predict_fraud(data, model_path='saved_model.pkl', scaler_path='scaler.pkl', 
     model = load(model_path)
     scaler = load(scaler_path)
     feature_config = load(feature_config_path)
-    numeric_features = feature_config['numeric_features']
-    categorical_features = feature_config['categorical_features']
-    required_features = feature_config['feature_names']
-
-    X = pd.DataFrame()
-
-    for col in numeric_features:
-        if col not in data:
-            raise ValueError(f"Required numeric feature '{col}' not found in input data")
-        X[col] = data[col]
-    
-    for col in categorical_features:
-        if col in data:
-            X[col] = data[col]
-    
-    if categorical_features:
-        X = pd.get_dummies(X, columns=categorical_features, prefix_sep='_')
-    
-    for feature in required_features:
-        if feature not in X.columns:
-            X[feature] = 0  
-            
-    X = X[required_features]
-    
-    X[numeric_features] = scaler.transform(X[numeric_features])
     
     prediction = model.predict(X)
     return prediction[0]

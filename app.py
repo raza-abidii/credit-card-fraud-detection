@@ -4,59 +4,44 @@ from models import predict_fraud
 
 def main():
     st.title("Credit Card Fraud Detection")
+    
+    st.subheader("Single Transaction Analysis")
+    with st.form(key='single_transaction_form'):
+        amt = st.number_input("Transaction Amount", min_value=0.0)
+        lat = st.number_input("Customer Latitude")
+        long = st.number_input("Customer Longitude")
+        city_pop = st.number_input("City Population", min_value=0)
+        merch_lat = st.number_input("Merchant Latitude")
+        merch_long = st.number_input("Merchant Longitude")
+        
+        category = st.selectbox("Merchant Category", options=[
+            "Groceries",
+            "Electronics",
+            "Clothing",
+            "Travel",
+            "Dining",
+            "Entertainment",
+            "Health & Beauty",
+            "Online Services",
+            "Automotive",
+            "Other"
+        ])
+        
+        submit_button = st.form_submit_button(label='Check Transaction')
+        
+        if submit_button:
+            input_data = pd.DataFrame({
+                'amt': [amt],
+                'lat': [lat],
+                'long': [long],
+                'city_pop': [city_pop],
+                'merch_lat': [merch_lat],
+                'merch_long': [merch_long],
+                'category': [category]
+            })
+            prediction = predict_fraud(input_data)
+            st.write(f"Prediction: {'Fraudulent' if prediction == 1 else 'Legitimate'}")
 
-    st.subheader("Enter Transaction Details")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        amount = st.number_input("Transaction Amount", min_value=0.0, step=0.01)
-        latitude = st.number_input("Latitude", min_value=-90.0, max_value=90.0)
-        longitude = st.number_input("Longitude", min_value=-180.0, max_value=180.0)
-        city_population = st.number_input("City Population", min_value=0)
-    
-    with col2:
-        merchant_latitude = st.number_input("Merchant Latitude", min_value=-90.0, max_value=90.0)
-        merchant_longitude = st.number_input("Merchant Longitude", min_value=-180.0, max_value=180.0)
-        category = st.text_input("Merchant Category")
-    
-    if st.button("Check Transaction"):
-        if not all([amount, latitude, longitude, city_population, merchant_latitude, merchant_longitude, category]):
-            st.warning("Please fill in all fields")
-        else:
-            try:
-                input_data = pd.DataFrame({
-                    'amt': [float(amount)],
-                    'lat': [float(latitude)],
-                    'long': [float(longitude)],
-                    'city_pop': [float(city_population)],
-                    'merch_lat': [float(merchant_latitude)],
-                    'merch_long': [float(merchant_longitude)],
-                    'category': [str(category)]
-                })
-                prediction = predict_fraud(input_data)
-                
-                if prediction:
-                    st.error("⚠️ Fraud Detected! This transaction appears to be fraudulent.")
-                else:
-                    st.success("✅ Transaction appears to be legitimate.")
-                
-                st.subheader("Transaction Details")
-                details = pd.DataFrame({
-                    'Feature': ['Amount', 'Location', 'City Population', 'Merchant Location', 'Category'],
-                    'Value': [
-                        f"${amount:.2f}",
-                        f"({latitude}, {longitude})",
-                        f"{city_population:,}",
-                        f"({merchant_latitude}, {merchant_longitude})",
-                        category
-                    ]
-                })
-                st.table(details)
-                
-            except Exception as e:
-                st.error(f"Error making prediction: {str(e)}")
-    
     st.subheader("Batch Processing")
     uploaded_file = st.file_uploader("Upload CSV file for batch processing", type=['csv'])
     
