@@ -23,14 +23,11 @@ print("Path to dataset files:", path)
 ## 3. Environment Setup
 ### a. Install Conda if you don't already have it installed.
 ### b. Create a new environment with Python:
-    ``` terminal 
-    conda create --name fraud-detection python=3.8 ```
+    conda create --name fraud-detection python=3.8
 ### c. Activate the environment:
-    ``` terminal
-    conda activate fraud-detection ```
+    conda activate fraud-detection
 ### d. Install required packages:
-    ``` terminal
-    pip install -r requirements.txt ```
+    pip install -r requirements.txt
 
 ## 4. Flowchart for the project
 ```mermaid
