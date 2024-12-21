@@ -69,10 +69,6 @@ flowchart TD
 1. Start the local server
 2. Navigate to `http://localhost:your_port`
 
-### Dependencies
-- HTML5
-- CSS3
-- JavaScript
 
 ### Contributing
 1. Fork the repository
