@@ -81,9 +81,6 @@ def predict_fraud(data, model_path='saved_model.pkl', scaler_path='scaler.pkl', 
     model = load(model_path)
     scaler = load(scaler_path)
     feature_config = load(feature_config_path)
-    
-    prediction = model.predict(X)
-    return prediction[0]
 
 if __name__ == "__main__":
     train_and_save_model('./data/fraudTrain.csv', 'saved_model.pkl', 'scaler.pkl')
