@@ -76,7 +76,7 @@ flowchart TD
 - Kaggle for providing the dataset
 
 ## Contact
-Your Name - Raza Abidi  <br />
+Name - Raza Abidi  <br />
 Email - razaabidi030@gmail.com  <br />
 Twitter - https://x.com/Razardus1  <br />
 Instagram - https://www.instagram.com/raza.abidii/  <br />
